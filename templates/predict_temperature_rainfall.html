@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Predict with Temperature and Rainfall</title>
+</head>
+<body>
+    <h1>Predict with Temperature and Rainfall</h1>
+    <form method="POST">
+        <label for="input_date">Enter a date (YYYY-MM):</label>
+        <input type="text" name="input_date" id="input_date" required><br>
+        <label for="input_temperature">Enter temperature (Celsius):</label>
+        <input type="text" name="input_temperature" id="input_temperature" required><br>
+        <label for="input_rainfall">Enter rainfall (mm):</label>
+        <input type="text" name="input_rainfall" id="input_rainfall" required><br>
+        <input type="submit" value="Predict">
+    </form>
+    {% if prediction %}
+    <h2>Prediction for Date: {{ prediction['Date'] }}</h2>
+    <p>Predicted Weather: {{ prediction['Predicted_Weather'] }}</p>
+    <p>Predicted Energy Demand (GWh): {{ prediction['Predicted_Energy_Demand_GWh'] }}</p>
+    <p>Suggested Power Source: {{ prediction['Suggested_Power_Source'] }}</p>
+    <p>Total Power Needed to be Produced (GWh): {{ prediction['Total_Power_Needed_GWh'] }}</p>
+    <p>Power Produced by Solar (GWh): {{ prediction['Power_Produced_by_Solar_GWh'] }}</p>
+    <p>Power Produced by Hydro (GWh): {{ prediction['Power_Produced_by_Hydro_GWh'] }}</p>
+    {% endif %}
+</body>
+</html>
