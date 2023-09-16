@@ -57,6 +57,11 @@ def predict_for_user_input(input_date):
     
     # Use the previous year's data to predict
     previous_year_data = train_data[(train_data['Year'] == (input_year - 1)) & (train_data['Month'] == input_month)]
+    
+    if previous_year_data.empty:
+        # If there's no data for the specified month and year, use the most recent data for the same month
+        previous_year_data = train_data[train_data['Month'] == input_month].tail(1)
+    
     input_features = previous_year_data[features].values.reshape(1, -1)
     
     # Predict Weather
@@ -72,7 +77,10 @@ def predict_for_user_input(input_date):
     predicted_rainfall = rainfall_regressor.predict(input_features)[0]
     
     # Suggest Power Generation Source
-    suggested_power_source = 'Solar' if predicted_weather == 'Sunny' else 'Hydro'
+    if predicted_temperature > 25 and predicted_rainfall < 50:
+        suggested_power_source = 'Solar'
+    else:
+        suggested_power_source = 'Hydro'
     
     # Calculate Total Power Needed to be Produced (more than demand)
     total_power_needed = predicted_energy_demand * 1.1  
@@ -86,7 +94,6 @@ def predict_for_user_input(input_date):
         power_hydro = total_power_needed - power_solar
     
     return {
-        'Date':input_date,
         'Predicted_Weather': predicted_weather,
         'Predicted_Energy_Demand_GWh': predicted_energy_demand,
         'Suggested_Power_Source': suggested_power_source,
@@ -96,15 +103,21 @@ def predict_for_user_input(input_date):
         'Predicted_Temperature_Celsius': predicted_temperature,
         'Predicted_Rainfall_mm': predicted_rainfall
     }
+
 # Function to predict for user input date, temperature, and rainfall
 def predict_for_user_input_temp_rain(input_date, input_temperature, input_rainfall):
     # Extract year and month from the input date
     input_year = input_date.year
     input_month = input_date.month
     
-    # Use the previous year's data to predict
-    previous_year_data = train_data[(train_data['Year'] == (input_year - 1)) & (train_data['Month'] == input_month)]
-    input_features = previous_year_data[features].values.reshape(1, -1)
+    # Find the most recent available data for the same month and year
+    recent_data = train_data[(train_data['Year'] == input_year) & (train_data['Month'] == input_month)]
+    
+    if recent_data.empty:
+        # If there's no data for the specified month and year, use the most recent data for the same month
+        recent_data = train_data[train_data['Month'] == input_month].tail(1)
+    
+    input_features = recent_data[features].values.reshape(1, -1)
     
     # Predict Energy Demand
     predicted_energy_demand = xgb_regressor.predict(input_features)[0]
@@ -134,6 +147,7 @@ def predict_for_user_input_temp_rain(input_date, input_temperature, input_rainfa
         'Power_Produced_by_Solar_GWh': power_solar,
         'Power_Produced_by_Hydro_GWh': power_hydro
     }
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
