@@ -57,11 +57,10 @@ def predict_for_user_input(input_date):
     
     # Use the previous year's data to predict
     previous_year_data = train_data[(train_data['Year'] == (input_year - 1)) & (train_data['Month'] == input_month)]
-    
     if previous_year_data.empty:
         # If there's no data for the specified month and year, use the most recent data for the same month
         previous_year_data = train_data[train_data['Month'] == input_month].tail(1)
-    
+
     input_features = previous_year_data[features].values.reshape(1, -1)
     
     # Predict Weather
@@ -77,10 +76,7 @@ def predict_for_user_input(input_date):
     predicted_rainfall = rainfall_regressor.predict(input_features)[0]
     
     # Suggest Power Generation Source
-    if predicted_temperature > 25 and predicted_rainfall < 50:
-        suggested_power_source = 'Solar'
-    else:
-        suggested_power_source = 'Hydro'
+    suggested_power_source = 'Solar' if predicted_weather == 'Sunny' else 'Hydro'
     
     # Calculate Total Power Needed to be Produced (more than demand)
     total_power_needed = predicted_energy_demand * 1.1  
