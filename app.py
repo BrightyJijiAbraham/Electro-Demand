@@ -119,10 +119,10 @@ def predict_for_user_input_temp_rain(input_date, input_temperature, input_rainfa
     predicted_energy_demand = xgb_regressor.predict(input_features)[0]
     
     # Suggest Power Generation Source
-    suggested_power_source = 'Solar' if input_temperature > 25 and input_rainfall < 50 else 'Hydro'
+    suggested_power_source = 'Solar' if input_temperature > 30 and input_rainfall < 100 else 'Hydro'
     
     # Predict Weather
-    predicted_weather = rf_classifier.predict(input_features)[0] if input_temperature and input_rainfall is None else 'Rainy' if input_rainfall >= 50 else 'Sunny'
+    predicted_weather = rf_classifier.predict(input_features)[0] if input_temperature and input_rainfall is None else 'Rainy' if input_rainfall >= 100 else 'Sunny'
     
     # Calculate Total Power Needed to be Produced (more than demand)
     total_power_needed = predicted_energy_demand * 1.1  
