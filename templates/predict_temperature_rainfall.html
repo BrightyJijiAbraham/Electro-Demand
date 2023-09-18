@@ -15,7 +15,7 @@
         <input type="text" name="input_rainfall" id="input_rainfall" required><br>
         <input type="submit" value="Predict">
     </form>
-    {% if prediction %}
+    <!-- {% if prediction %}
     <h2>Prediction for Date: {{ prediction['Date'] }}</h2>
     <p>Predicted Weather: {{ prediction['Predicted_Weather'] }}</p>
     <p>Predicted Energy Demand (MWh): {{ prediction['Predicted_Energy_Demand_GWh'] }}</p>
@@ -24,5 +24,59 @@
     <p>Power Produced by Solar (MWh): {{ prediction['Power_Produced_by_Solar_GWh'] }}</p>
     <p>Power Produced by Hydro (MWh): {{ prediction['Power_Produced_by_Hydro_GWh'] }}</p>
     {% endif %}
+    {% if prediction %} -->
+<div class="prediction-box">
+    <div class="row">
+        <span class="label">Predicted Weather</span>
+        <span class="value">{{ prediction['Predicted_Weather'] }}</span>
+    </div>
+    <div class="row">
+        <span class="label">Predicted Energy Demand (MWh)</span>
+        <span class="value">{{ prediction['Predicted_Energy_Demand_GWh'] }}</span>
+    </div>
+    <div class="row">
+        <span class="label">Suggested Power Source</span>
+        <span class="value">{{ prediction['Suggested_Power_Source'] }}</span>
+    </div>
+    <div class="row">
+        <span class="label">Total Power Needed to be Produced (MWh)</span>
+        <span class="value">{{ prediction['Total_Power_Needed_GWh'] }}</span>
+    </div>
+    <div class="row">
+        <span class="label">Power Produced by Solar (MWh)</span>
+        <span class="value">{{ prediction['Power_Produced_by_Solar_GWh'] }}</span>
+    </div>
+    <div class="row">
+        <span class="label">Power Produced by Hydro (MWh)</span>
+        <span class="value">{{ prediction['Power_Produced_by_Hydro_GWh'] }}</span>
+    </div>
+</div>
+<style>
+    .prediction-box {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-left: 300px;
+        margin-right: 300px;
+        border-radius: 5px;
+        color: white;
+    }
+
+    .row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+
+    .label {
+        flex: 1;
+        text-align: left;
+    }
+
+    .value {
+        flex: 1;
+        text-align: right;
+    }
+</style>
+{% endif %}
 </body>
 </html>
