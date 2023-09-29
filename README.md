@@ -1,3 +1,4 @@
+# TECHATHLON 2023 SECOND BEST PROJECT
 # Electro-Demand
 Kerala has seen a critical turnover in the climatic conditions in the last 4 years. Due to sudden climatic conditions the fluctuating water level in dams are causing to not meet the energy requirements of the state during times of high demand period and we have to buy electricity from other states. To tackle it we paln on creating a fully efficient integrated system that can predict as well as take input the climatic factors affecting like temperature, rainfall, etc and predict the weather condition which in turn will predict the type of energy source to be used for that climatic condition(solar/hydro), the energy demand during high peak demand period and the energy to be produced to meet that demand. 
 
